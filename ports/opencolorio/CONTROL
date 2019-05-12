@@ -1,0 +1,4 @@
+Source: opencolorio
+Version: 1.1.0
+Description: OpenColorIO (OCIO) is a complete color management solution geared towards motion picture production with an emphasis on visual effects and computer animation
+Build-Depends: glew, freeglut, openexr, tinyxml

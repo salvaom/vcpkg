@@ -34,20 +34,20 @@ vcpkg_configure_cmake(
     SOURCE_PATH ${SOURCE_PATH}
     PREFER_NINJA
     OPTIONS
-        -DOIIO_BUILD_TOOLS=OFF
+        -DOIIO_BUILD_TOOLS=ON
         -DOIIO_BUILD_TESTS=OFF
         -DHIDE_SYMBOLS=ON
         -DUSE_DICOM=OFF
-        -DUSE_FFMPEG=OFF
+        -DUSE_FFMPEG=ON
         -DUSE_FIELD3D=OFF
         -DUSE_FREETYPE=OFF
-        -DUSE_GIF=OFF
+        -DUSE_GIF=ON
         -DUSE_LIBRAW=${USE_LIBRAW}
         -DUSE_NUKE=OFF
-        -DUSE_OCIO=OFF
-        -DUSE_OPENCV=OFF
-        -DUSE_OPENJPEG=OFF
-        -DUSE_OPENSSL=OFF
+        -DUSE_OCIO=ON
+        -DUSE_OPENCV=ON
+        -DUSE_OPENJPEG=ON
+        -DUSE_OPENSSL=ON
         -DUSE_PTEX=OFF
         -DUSE_PYTHON=OFF
         -DUSE_QT=OFF
@@ -71,6 +71,22 @@ file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/doc)
 file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/debug/doc)
 file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/debug/include)
 file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/debug/share)
+
+# Copy all RELEASE exes to tools
+file (MAKE_DIRECTORY ${CURRENT_PACKAGES_DIR}/tools/openimageio)
+file (RENAME ${CURRENT_PACKAGES_DIR}/bin/iconvert.exe ${CURRENT_PACKAGES_DIR}/tools/openimageio/iconvert.exe)
+file (RENAME ${CURRENT_PACKAGES_DIR}/bin/idiff.exe ${CURRENT_PACKAGES_DIR}/tools/openimageio/idiff.exe)
+file (RENAME ${CURRENT_PACKAGES_DIR}/bin/igrep.exe ${CURRENT_PACKAGES_DIR}/tools/openimageio/igrep.exe)
+file (RENAME ${CURRENT_PACKAGES_DIR}/bin/iinfo.exe ${CURRENT_PACKAGES_DIR}/tools/openimageio/iinfo.exe)
+file (RENAME ${CURRENT_PACKAGES_DIR}/bin/maketx.exe ${CURRENT_PACKAGES_DIR}/tools/openimageio/maketx.exe)
+file (RENAME ${CURRENT_PACKAGES_DIR}/bin/oiiotool.exe ${CURRENT_PACKAGES_DIR}/tools/openimageio/oiiotool.exe)
+
+file (REMOVE ${CURRENT_PACKAGES_DIR}/debug/bin/iconvert.exe)
+file (REMOVE ${CURRENT_PACKAGES_DIR}/debug/bin/idiff.exe)
+file (REMOVE ${CURRENT_PACKAGES_DIR}/debug/bin/igrep.exe)
+file (REMOVE ${CURRENT_PACKAGES_DIR}/debug/bin/iinfo.exe)
+file (REMOVE ${CURRENT_PACKAGES_DIR}/debug/bin/maketx.exe)
+file (REMOVE ${CURRENT_PACKAGES_DIR}/debug/bin/oiiotool.exe)
 
 # Handle copyright
 file(COPY ${SOURCE_PATH}/LICENSE DESTINATION ${CURRENT_PACKAGES_DIR}/share/openimageio)
