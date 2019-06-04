@@ -40,7 +40,7 @@ vcpkg_configure_cmake(
         -DUSE_DICOM=OFF
         -DUSE_FFMPEG=ON
         -DUSE_FIELD3D=OFF
-        -DUSE_FREETYPE=OFF
+        -DUSE_FREETYPE=ON
         -DUSE_GIF=ON
         -DUSE_LIBRAW=${USE_LIBRAW}
         -DUSE_NUKE=OFF
