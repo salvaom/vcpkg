@@ -1,5 +1,5 @@
 include(vcpkg_common_functions)
-set(SOURCE_PATH ${CURRENT_BUILDTREES_DIR}/src/freeglut-3.0.0)
+
 vcpkg_download_distfile(ARCHIVE
     URLS "http://downloads.sourceforge.net/project/freeglut/freeglut/3.0.0/freeglut-3.0.0.tar.gz"
     FILENAME "freeglut-3.0.0.tar.gz"
@@ -15,7 +15,7 @@ vcpkg_extract_source_archive_ex(
 )
 
 if(VCPKG_CMAKE_SYSTEM_NAME AND NOT VCPKG_CMAKE_SYSTEM_NAME STREQUAL "WindowsStore")
-    message("Freeglut currently requires the following libraries from the system package manager:\n    opengl\n    glu\n    libx11\n\nThese can be installed on Ubuntu systems via apt-get install libxi-dev libgl1-mesa-dev libglu1-mesa-dev mesa-common-dev\nOn macOS Xquartz is required.")
+    message("Freeglut currently requires the following libraries from the system package manager:\n    opengl\n    glu\n    libx11\n    xrandr\n    xi\n    xxf86vm\n\nThese can be installed on Ubuntu systems via apt-get install libxi-dev libgl1-mesa-dev libglu1-mesa-dev mesa-common-dev libxrandr-dev libxxf86vm-dev\nOn macOS Xquartz is required.")
 endif()
 
 if (VCPKG_LIBRARY_LINKAGE STREQUAL dynamic)
@@ -36,6 +36,7 @@ file(WRITE ${SOURCE_PATH}/include/GL/freeglut_std.h "${FREEGLUT_STDH}")
 
 vcpkg_configure_cmake(
     SOURCE_PATH ${SOURCE_PATH}
+    PREFER_NINJA
     OPTIONS
         -DFREEGLUT_BUILD_STATIC_LIBS=${FREEGLUT_STATIC}
         -DFREEGLUT_BUILD_SHARED_LIBS=${FREEGLUT_DYNAMIC}
@@ -62,3 +63,7 @@ file(RENAME ${CURRENT_PACKAGES_DIR}/share/freeglut/COPYING ${CURRENT_PACKAGES_DI
 
 vcpkg_copy_pdbs()
 file(COPY ${CMAKE_CURRENT_LIST_DIR}/usage DESTINATION ${CURRENT_PACKAGES_DIR}/share/${PORT})
+
+if(VCPKG_CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    file(COPY ${CMAKE_CURRENT_LIST_DIR}/vcpkg-cmake-wrapper.cmake DESTINATION ${CURRENT_PACKAGES_DIR}/share/glut)
+endif()
